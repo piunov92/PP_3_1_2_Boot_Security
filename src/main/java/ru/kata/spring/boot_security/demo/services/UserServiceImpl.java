@@ -1,6 +1,8 @@
 package ru.kata.spring.boot_security.demo.services;
 
 import jakarta.transaction.Transactional;
+import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import java.util.*;
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -87,6 +90,7 @@ public class UserServiceImpl implements UserService {
 
         Set<Role> roles = new HashSet<>();
         for (String roleName : roleNames) {
+            //log.info("role name method update user: " + roleName);
             Role role = roleRepository.findByName(roleName).orElse(null);
             if (role != null) {
                 roles.add(role);
@@ -96,7 +100,7 @@ public class UserServiceImpl implements UserService {
                 roles.add(role);
             }
         }
-        user.setRoles(roles);
+        foundUser.setRoles(roles);
         userRepository.save(foundUser);
     }
 
